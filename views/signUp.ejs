@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div align="center" class="loginBox">
+      <div class="Welcome">
+        <img src="images/Logo.png" alt=":D">
+        <form action="createUser" method="post">
+          <div class="text-form">
+            Username <span id="star">*</span>
+          </div>
+          <input type="text" name="Nickname" value="">
+          <div class="text-form">
+            Password <span id="star">*</span>
+          </div>
+          <input type="password" name="password" value="">
+          <div class="text-form">
+            Full name  <span id="star">*</span>
+          </div>
+          <input type="text" name="name" value="">
+          <div class="text-form">
+            Sex
+          </div>
+          <input id='HombreR' type="radio" name="sexo" value="Hombre" checked>
+          <label class="text-form" for="HombreR">Male</label>
+
+          <input id='MujerR' type="radio" name="sexo" value="Mujer">
+          <label class="text-form" for="MujerR">Female</label><br>
+
+          <label class="text-form" for="datepicker">Date of Birth</label>
+          <input type="date" /><br>
+
+          <label class="text-form" for="Photo">Photo</label>
+          <input id="Photo" type="file" name="file" value="foto"><br><br>
+
+          <input class="button green " type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+

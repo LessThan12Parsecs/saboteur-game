@@ -1,0 +1,101 @@
+body {
+    background-image: url("../images/6.jpeg");
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+
+.loginBox{
+    width: 35%;
+    margin:0 auto;
+    position: relative;
+    border:solid rgba(34,31,32,0.59);
+    border-radius: 8px;
+    transform: translateY(20%);
+    background-color: rgba(255,232,224,0.47)
+}
+.Welcome h1 {
+    font-size:70px;
+}
+.Welcome{
+    font: 22px "Euclid Fraktur", Helvetica, Arial, sans-serif;
+}
+.text-form{
+    color:whitesmoke;
+}
+
+#star{
+    color:red;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+
+input[type=text] ,input[type=password] ,input[type=date]{
+    border:none;
+    background-color:sienna;
+    color: white;
+    border-bottom: 2px solid gold;
+    border-radius: 4px;
+    width: 90%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input[type=text]:focus ,input[type=password]:focus ,input[type=date]:focus  {
+    border: 3px solid #555;
+}
+
+
+.button, input[type=submit] {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.green {
+    background-color: green;
+}
+.gold {
+    background-color: gold;
+}
+.button a, input[type=submit] {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+input[type=submit]{
+    font-family: "Euclid Fraktur";
+    padding: 1%;
+}
+.button a:after, input[type=submit]:after{
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover a{
+    padding-right: 25px;
+}
+input[type=submit]:hover{
+    background-color:rgba(221,182,46,0.6);
+}
+
+.button:hover a:after {
+    opacity: 1;
+    right: 0;
+}
