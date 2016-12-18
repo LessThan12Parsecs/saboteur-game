@@ -1,4 +1,5 @@
 var express = require('express');
+var body = require('body-parser');
 var router = express.Router();
 
 /* GET pages. */
@@ -13,6 +14,7 @@ router.get('/signUp',function (req,res,next) {
 router.get('/Login',function (req,res,next) {
     res.render('Login', {title:'Login'});
 });
+
 
 
 module.exports = router;

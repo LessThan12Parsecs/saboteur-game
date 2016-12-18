@@ -8,7 +8,7 @@
     <div align="center" class="loginBox">
       <div class="Welcome">
         <img src="images/Logo.png" alt=":D">
-        <form action="createUser" method="post">
+        <form action="createUserFromForm" method="post">
           <div class="text-form">
             Username <span id="star">*</span>
           </div>
@@ -20,18 +20,18 @@
           <div class="text-form">
             Full name  <span id="star">*</span>
           </div>
-          <input type="text" name="name" value="">
+          <input type="text" name="fullName" value="">
           <div class="text-form">
             Sex
           </div>
-          <input id='HombreR' type="radio" name="sexo" value="Hombre" checked>
+          <input id='HombreR' type="radio" name="sex" value="H" checked>
           <label class="text-form" for="HombreR">Male</label>
 
-          <input id='MujerR' type="radio" name="sexo" value="Mujer">
+          <input id='MujerR' type="radio" name="sex" value="M">
           <label class="text-form" for="MujerR">Female</label><br>
 
           <label class="text-form" for="datepicker">Date of Birth</label>
-          <input type="date" /><br>
+          <input type="date" name="date" /><br>
 
           <label class="text-form" for="Photo">Photo</label>
           <input id="Photo" type="file" name="file" value="foto"><br><br>
