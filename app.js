@@ -13,11 +13,11 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var upload = multer({storage:multer.memoryStorage()});
-var pool = mysql.createPool({
+var conn = mysql.createConnection({
     host:"localhost",
     database:"saboteur",
     user:"root",
-    password:"Epsilon14"
+    password:"webwebweb"
 });
 
 var app = express();
@@ -30,46 +30,44 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.post("/createUserFromForm", upload.single("photo"), function(request, response) {
     var user = {
-        name: request.body.Nickname,
-        fullName: request.body.FullName,
+        nickname: request.body.Nickname,
+        fullName: request.body.fullName,
         password: request.body.password,
         date: request.body.date,
         sex: request.body.sex,
-        photo: null
+        photo: request.body.photo
     };
 
-    if (request.file) {
-        user.photo = request.file.buffer;
-    }
 
-    insertUser(user, function(err, newId) {
-        user.id = newId;
+    insertUser(user, function(err) {
         response.render("loggedUser", user);
     });
 });
 
 function insertUser(user, callback) {
-    pool.getConnection(function(err, con) {
+    conn.connect(function(err) {
         if (err) {
+            console.log('error de conexion');
             callback(err);
         } else {
-            var sql = "INSERT INTO USERS(NICKNAME, FULLNAME, PASSWORD,DATE,SEX,PHOTO) VALUES (?, ?, ?, ?, ?, ?)";
-            con.query(sql, [user.name, user.fullName, user.password,user.date,user.sex, user.photo],
+            console.log('conexion exitosa');
+            console.log(user);
+            var sql = "INSERT INTO USERS (NICKNAME,FULLNAME,PASSWORD,DATE,SEX,PHOTO) VALUES (?, ?, ?, ?, ?, ?)";
+            conn.query(sql, [user.nickname, user.fullName, user.password,user.date,user.sex, user.photo],
                 function(err, result) {
-                    con.release();
                     if (err) {
                         callback(err);
                     } else {
                         callback(null, result.insertId);
                     }
-                });
+                });conn.end();
         }
     });
 }
