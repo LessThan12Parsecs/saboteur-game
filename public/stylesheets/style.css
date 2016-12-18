@@ -76,7 +76,7 @@ input[type=text]:focus ,input[type=password]:focus ,input[type=date]:focus  {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    transition: 0.5s;
+    transition: 0.1s;
 }
 input[type=submit]{
     font-family: "Euclid Fraktur";

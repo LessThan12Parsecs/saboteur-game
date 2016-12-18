@@ -110,7 +110,7 @@ app.post("/loginUser", function(request, response) {
             response.render('Login', {title:'Wrong Login'});
         }
         else{
-            response.render('loggedUser',result[0]);
+            //TODO AQUI HAY QUE CONTINUAR CON LA VISTA DE USUARIO LOGEADO (loggedUser)
         }
     });
 });
