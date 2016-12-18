@@ -12,7 +12,7 @@ router.get('/signUp',function (req,res,next) {
 });
 
 router.get('/Login',function (req,res,next) {
-    res.render('Login', {title:'Login'});
+    res.render('Login', {title:''});
 });
 
 

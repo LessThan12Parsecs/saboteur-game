@@ -13,6 +13,9 @@ body {
     transform: translateY(20%);
     background-color: rgba(255,232,224,0.47)
 }
+.big{
+    width: 75%;
+}
 .Welcome h1 {
     font-size:70px;
 }

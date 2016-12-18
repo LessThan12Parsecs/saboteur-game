@@ -16,7 +16,7 @@ var index = require('./routes/index');
 var upload = multer({storage:multer.memoryStorage()});
 var pool = mysql.createPool({
     host: config.dbHost,
-    database: config.dbName,
+    database:config.dbName,
     user: config.dbUser,
     password: config.dbPassword
 });
@@ -63,7 +63,7 @@ function obtenerImagen(id, callback) {
         if (err) {
             callback(err);
         } else {
-            var sql = "SELECT Foto FROM personas WHERE Id = ?";
+            var sql = "SELECT PHOTO FROM USERS WHERE Id = ?";
             con.query(sql, [id], function(err, result) {
                 con.release();
                 if (err) {
@@ -81,6 +81,7 @@ function obtenerImagen(id, callback) {
 }
 
 app.post("/createUserFromForm", upload.single("photo"), function(request, response) {
+
     var user = {
         nickname: request.body.Nickname,
         fullName: request.body.fullName,
@@ -92,9 +93,47 @@ app.post("/createUserFromForm", upload.single("photo"), function(request, respon
 
 
     insertUser(user, function(err) {
-        response.render("loggedUser", user);
+        var model = { user : user};
+        response.render('insertSuccess',model);
     });
 });
+
+app.post("/loginUser", function(request, response) {
+
+    var userP = {
+        nickname: request.body.Nickname,
+        password: request.body.password,
+    };
+
+    loginUser(userP, function(err,result) {
+        if (typeof result[0] === "undefined") {
+            response.render('Login', {title:'Wrong Login'});
+        }
+        else{
+            response.render('loggedUser',result[0]);
+        }
+    });
+});
+
+function loginUser(userP, callback) {
+    pool.getConnection(function(err, con) {
+        if (err) {
+            callback(err);
+        } else {
+            console.log(userP);
+            var sql = "SELECT * FROM USERS WHERE NICKNAME = ? AND PASSWORD = ?";
+            con.query(sql, [userP.nickname, userP.password],
+                function(err, result) {
+                    con.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+                });
+        }
+    });
+}
 
 app.get("/imagen/:id", function(request, response, next) {
     var n = Number(request.params.id);
