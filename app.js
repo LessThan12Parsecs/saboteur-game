@@ -7,17 +7,18 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var fs = require('fs');
 var multer = require('multer');
-
+var ejs = require('ejs');
+var config = require("./config");
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+
 
 var upload = multer({storage:multer.memoryStorage()});
-var conn = mysql.createConnection({
-    host:"localhost",
-    database:"saboteur",
-    user:"root",
-    password:"webwebweb"
+var pool = mysql.createPool({
+    host: config.dbHost,
+    database: config.dbName,
+    user: config.dbUser,
+    password: config.dbPassword
 });
 
 var app = express();
@@ -35,6 +36,50 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+
+
+function insertUser(user, callback) {
+    pool.getConnection(function(err, con) {
+        if (err) {
+            callback(err);
+        } else {
+            console.log(user);
+            var sql = "INSERT INTO USERS(NICKNAME, FULLNAME, PASSWORD, DATE, SEX, PHOTO) VALUES (?, ?, ?, ?, ?, ?)";
+            con.query(sql, [user.nickname, user.fullName, user.password, user.date,user.sex,user.photo],
+                function(err, result) {
+                    con.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result.insertId);
+                    }
+                });
+        }
+    });
+}
+
+function obtenerImagen(id, callback) {
+    pool.getConnection(function(err, con) {
+        if (err) {
+            callback(err);
+        } else {
+            var sql = "SELECT Foto FROM personas WHERE Id = ?";
+            con.query(sql, [id], function(err, result) {
+                con.release();
+                if (err) {
+                    callback(err);
+                } else {
+                    if (result.length === 0) {
+                        callback(null);
+                    } else {
+                        callback(null, result[0].photo);
+                    }
+                }
+            });
+        }
+    });
+}
+
 app.post("/createUserFromForm", upload.single("photo"), function(request, response) {
     var user = {
         nickname: request.body.Nickname,
@@ -51,26 +96,22 @@ app.post("/createUserFromForm", upload.single("photo"), function(request, respon
     });
 });
 
-function insertUser(user, callback) {
-    conn.connect(function(err) {
-        if (err) {
-            console.log('error de conexion');
-            callback(err);
-        } else {
-            console.log('conexion exitosa');
-            console.log(user);
-            var sql = "INSERT INTO USERS (NICKNAME,FULLNAME,PASSWORD,DATE,SEX,PHOTO) VALUES (?, ?, ?, ?, ?, ?)";
-            conn.query(sql, [user.nickname, user.fullName, user.password,user.date,user.sex, user.photo],
-                function(err, result) {
-                    if (err) {
-                        callback(err);
-                    } else {
-                        callback(null, result.insertId);
-                    }
-                });conn.end();
-        }
-    });
-}
+app.get("/imagen/:id", function(request, response, next) {
+    var n = Number(request.params.id);
+    if (isNaN(n)) {
+        next(new Error("Id no numérico"));
+    } else {
+        obtenerImagen(n, function(err, imagen) {
+            if (imagen) {
+                response.end(imagen);
+            } else {
+                response.status(404);
+                response.end("Not found");
+            }
+        });
+    }
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
