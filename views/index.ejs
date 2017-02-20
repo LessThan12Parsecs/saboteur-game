@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Saboteur</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+  <div align="left" class="userBox loginBox">
+        <img src="/images/user.png">
+        <% if(user){ %>
+        <h3><%=user.nickname%></h3>
+        <% } else{ %>
+        <h3>Not Logged</h3>
+        <% } %>
+  </div>
     <div align="center" class="loginBox">
       <div class="Welcome">
         <img src="images/Logo.png" alt=":D">
-        <p>Welcome to <%= title %></p>
-        <div class="button green" style="vertical-align: middle"><a href="Login">Login</a></div>
-        <div class="button gold" style="vertical-align: middle"><a href="signUp">Sign Up</a></div>
+        <p>Welcome to Saboteur</p>
+        <div class="button green" style="vertical-align: middle"><a href="/users/Login">Login</a></div>
+        <div class="button gold" style="vertical-align: middle"><a href="/users/signUp">Sign Up</a></div>
       </div>
     </div>
   </body>

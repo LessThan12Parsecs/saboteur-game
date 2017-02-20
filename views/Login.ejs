@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>title</title>
+    <title>Saboteur</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+  <div align="left" class="userBox loginBox">
+    <img src="/images/user.png">
+      <% if(user){ %>
+    <h3><%=user.nickname%></h3>
+      <% } else{ %>
+    <h3>Not Logged</h3>
+      <% } %>
+  </div>
     <div align="center" class="loginBox">
       <div class="Welcome">
-        <img src="images/Logo.png" alt=":D">
+        <img src="../images/Logo.png" alt=">_> no image">
         <p><%=title%></p>
-        <form action="loginUser" method="post">
+        <form action="/users/loginUser" method="post">
           <div class="text-form">
             Username <span id="star">*</span>
           </div>
@@ -18,7 +26,7 @@
             Password <span id="star">*</span>
           </div>
           <input type="password" name="password" value=""><br>
-          <input class="button green " type="submit" value="Submit">
+          <input class="button green " type="submit" value="Login">
         </form>
       </div>
     </div>

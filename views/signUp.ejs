@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Saboteur</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <div align="center" class="loginBox">
+  <div align="left" class="userBox loginBox">
+    <img src="/images/user.png">
+      <% if(user){ %>
+    <h3><%=user.nickname%></h3>
+      <% } else{ %>
+    <h3>Not Logged</h3>
+      <% } %>
+  </div>
+    <main role="main" align="center" class="loginBox">
       <div class="Welcome">
-        <img src="images/Logo.png" alt=":D">
-        <form action="createUserFromForm" method="post">
+        <img src="../images/Logo.png" alt=":D">
+        <form class="signUp-form"action="/users/createUser" name="signUpForm" method="post">
           <div class="text-form">
             Username <span id="star">*</span>
           </div>
@@ -24,22 +32,22 @@
           <div class="text-form">
             Sex
           </div>
-          <input id='HombreR' type="radio" name="sex" value="M" checked>
+          <input id='HombreR' type="radio" name="sex" value="M">
           <label class="text-form" for="HombreR">Male</label>
 
-          <input id='MujerR' type="radio" name="sex" value="F">
+          <input id='MujerR' type="radio" name="sex" value="F" check>
           <label class="text-form" for="MujerR">Female</label><br>
 
-          <label class="text-form" for="datepicker">Date of Birth</label>
-          <input type="date" name="date" /><br>
+          <label class="text-form" for="date">Date of Birth</label>
+          <input type="date" name="date" value="YYYY-MM-DD"/><br>
 
           <label class="text-form" for="Photo">Photo</label>
           <input id="Photo" type="file" name="photo" value="photo"><br><br>
 
-          <input class="button green " type="submit" value="Submit">
+          <input class="button green" type="submit" value="Submit">
         </form>
       </div>
-    </div>
+    </main>
   </body>
 </html>
 

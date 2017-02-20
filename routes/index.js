@@ -3,18 +3,9 @@ var body = require('body-parser');
 var router = express.Router();
 
 /* GET pages. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Saboteur' });
+router.get('/', function(request, response, next) {
+  var user = request.session.user;
+  response.render('index',{ user:user});
 });
-
-router.get('/signUp',function (req,res,next) {
-    res.render('signUp', {title:'SignUp'});
-});
-
-router.get('/Login',function (req,res,next) {
-    res.render('Login', {title:''});
-});
-
-
 
 module.exports = router;

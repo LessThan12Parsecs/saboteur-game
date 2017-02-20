@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> title</title>
+    <title>Saboteur</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+  <div align="left" class="userBox loginBox">
+    <img src="/images/user.png">
+      <% if(user){ %>
+    <h3><%=user.nickname%></h3>
+      <% } else{ %>
+    <h3>Not Logged</h3>
+      <% } %>
+  </div>
     <div align="center" class="loginBox big">
       <div class="Welcome">
         <img src="images/Logo.png" alt=":D">
         <div class="left-menu" style="vertical-align: middle">
-          <p>Welcome  USER <%=user%> </p>
+          <p>Welcome  USER <%=user.nickname%> </p>
           <label class="text-Label-menus" for="LobbyGames">Lobby Games</label>
           <table id="LobbyGames">
             <tr>
@@ -18,46 +26,6 @@
               <th>Number of Players</th>
               <th>Delete Game</th>
             </tr>
-              <% lobbyGames.forEach(function (row) {%>
-            <tr>
-              <td><%=row.Name %></td>
-              <td><%=row.Date %></td>
-              <td><%=row.NumPlayers %></td>
-              <td><!--TODO -AQUI VA EL BOTON PARA DESTRUIR PARTIDA(DESTRUYENDO DE BASE DE DATOS)(QUIZAS MEJOR CAMBIAR A ACTIVA O INACTIVA)--></td>
-            </tr>
-              <%});%>
-          </table>
-            <label class="text-Label-menus" for="GamesCourse">Games on Course</label>
-            <table id="GamesCourse">
-              <tr>
-                <th>Name</th>
-                <th>Host</th>
-                <th>Date</th>
-                <th>Turn</th>
-              </tr>
-                <% nowGames.forEach(function (row) {%>
-              <tr>
-                <td><%=row.Name %></td>
-                <td><%=row.Host %></td>
-                <td><%=row.Date %></td>
-                <td><%=row.Turn %></td>
-              </tr>
-                <%});%>
-            </table>
-          <label class="text-Label-menus" for="FinishedGames">Finished Games</label>
-          <table id="FinishedGames">
-            <tr>
-              <th>Name</th>
-              <th>Host</th>
-              <th>Winner</th>
-            </tr>
-              <% finGames.forEach(function (row) {%>
-            <tr>
-              <td><%=row.Name %></td>
-              <td><%=row.Host %></td>
-              <td><%=row.Winner %></td>
-            </tr>
-              <%});%>
           </table>
         </div>
         <div class="right-menu" style="vertical-align: middle">
