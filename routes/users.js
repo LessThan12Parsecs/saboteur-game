@@ -12,36 +12,27 @@ router.get('/signUp',function (request,response,next) {
 });
 
 router.get('/Login',function (request,response,next) {
-    var user = request.session.user;
-    if(user) {
-        response.render('loggedUser',{user:user})
-    }
-    else{
-        response.render('Login', {title:'',user:user});
-    }
-
+    response.render('Login',{user:undefined});
 });
 
 router.post("/createUser", upload.single("photo"), function(request, response) {
-    console.log(request.body.date);
     var user = {
-        nickname: request.body.Nickname,
+        nickname: request.body.nickname,
         password: request.body.password,
         fullName: request.body.fullName,
         sex: request.body.sex,
         date: request.body.date,
         photo: request.body.photo
     };
-
+    //console.log(request.body);
     users.insertUser(user, function(err,resultID) {
         if(err){
-            console.log("que ha pasao");
+            console.log("Error al insertar usuario");
             return;
         }
-        console.log(resultID);
+       //console.log(resultID);
         var model = { user : user};
-
-        console.log("woot woot");
+        console.log("Se ha insertado usario con exito");
         response.render('insertSuccess',model);
     });
 });
@@ -49,7 +40,7 @@ router.post("/createUser", upload.single("photo"), function(request, response) {
 router.post("/loginUser", function(request, response) {
     var user = request.session.user;
     var userP = {
-        nickname: request.body.Nickname,
+        nickname: request.body.nickname,
         password: request.body.password,
     };
 

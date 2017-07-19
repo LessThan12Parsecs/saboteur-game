@@ -10,20 +10,32 @@ var ejs = require('ejs');
 var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var config = require('./config');
 var app = express();
+var mysqlSession = require("express-mysql-session");
 
+var MySQLStore = mysqlSession(session);
+
+var sessionStore = new MySQLStore({
+    host: config.dbHost,
+    user: config.dbUser,
+    password: config.dbPassword,
+    database: config.dbName
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 var middlewareSession = session({
     saveUninitialized: false,
     secret: "foobar34",
-    resave: false
+    resave: false,
+    store: sessionStore
 });
+
 app.use(middlewareSession);
 app.use(logger('dev'));
 app.use(bodyParser.json());

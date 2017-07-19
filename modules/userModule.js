@@ -20,13 +20,13 @@ function insertUser(user, callback) {
         if (err) {
             callback(err);
         } else {
-            console.log(user);
+            //console.log(user);
             var sql = "INSERT INTO USERS(Nickname, FullName, Password, Date, Sex, Photo) VALUES (?, ?, ?, ?, ?, ?)";
             con.query(sql, [user.nickname, user.fullName, user.password, user.date,user.sex,user.photo],
                 function(err, result) {
                     con.release();
                     if (err) {
-                        console.log("oshtia");
+                        console.log("User creation failed");
                         callback(err);
                     } else {
                         callback(null, result.insertId);
@@ -77,13 +77,13 @@ function loginUser(userP, callback) {
     });
 }
 
-function validateUserForm()
+/*function validateUserForm()
 {
 
-    if(document.signUpForm.Nickname.value == "" )
+    if(document.signUpForm.nickname.value == "" )
     {
         alert( "Por favor introduce tu nombre" );
-        document.signUpForm.Nickname.focus() ;
+        document.signUpForm.nickname.focus() ;
         return false;
     }
 
@@ -116,5 +116,6 @@ function validateUserForm()
         return false;
     }
     return( true );
-}
+
+}*/
 

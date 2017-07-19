@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7">
-        <schema name="Saboteur" object-types="column, constraint, function, index, procedure, table, dataset trigger, view" />
+        <schema name="Saboteur" object-types="function, procedure, table, view" />
       </connection>
     </loaded-nodes>
   </component>
@@ -36,6 +36,11 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-list connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7" dataset="Saboteur.USERS" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7" dataset="Saboteur.GAMES" active-filter-id="38e02e8e-f5ae-43cc-a477-78a397b93c48">
+      <filter id="38e02e8e-f5ae-43cc-a477-78a397b93c48" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="idGAMES" operator="=" value="" active="true" />
+      </filter>
+    </filter-list>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers>
@@ -68,7 +73,7 @@
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="5.7" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
@@ -98,12 +103,14 @@
           <charset value="UTF-8" />
           <ddl-file-binding value="true" />
           <database-logging value="true" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
           <environment-type value="default" />
           <idle-time-to-disconnect value="30" />
           <password-expiry-time value="10" />
           <max-connection-pool-size value="7" />
           <alternative-statement-delimiter value="" />
-          <connect-automatically value="true" />
         </details>
         <object-filters hide-empty-schemas="false">
           <object-type-filter use-master-settings="true">
