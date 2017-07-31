@@ -21,10 +21,10 @@ body {
   width: 75%;
 }
 .Welcome h1 {
-  font-size: 70px;
+  font-size: 90px;
 }
 .Welcome {
-  font: 22px "Euclid Fraktur", Helvetica, Arial, sans-serif;
+  font-family: 36px "Bellefair", Helvetica, Arial, serif;
 }
 .text-form {
   color: #f5f5f5;
@@ -83,7 +83,7 @@ input[type=submit] {
   transition: 0.1s;
 }
 input[type=submit] {
-  font-family: "Euclid Fraktur";
+  font-family: "Bellefair";
   padding: 1%;
 }
 .button a:after,

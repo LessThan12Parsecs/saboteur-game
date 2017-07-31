@@ -20,7 +20,7 @@ function insertUser(user, callback) {
         if (err) {
             callback(err);
         } else {
-            //console.log(user);
+           // console.log(user);
             var sql = "INSERT INTO USERS(Nickname, FullName, Password, Date, Sex, Photo) VALUES (?, ?, ?, ?, ?, ?)";
             con.query(sql, [user.nickname, user.fullName, user.password, user.date,user.sex,user.photo],
                 function(err, result) {
@@ -41,7 +41,8 @@ function obtenerImagen(id, callback) {
         if (err) {
             callback(err);
         } else {
-            var sql = "SELECT PHOTO FROM USERS WHERE Id = ?";
+            var sql = "SELECT PHOTO FROM USERS WHERE idUSERS = ?";
+           // console.log("got conn");
             con.query(sql, [id], function(err, result) {
                 con.release();
                 if (err) {
@@ -50,7 +51,8 @@ function obtenerImagen(id, callback) {
                     if (result.length === 0) {
                         callback(null);
                     } else {
-                        callback(null, result[0].photo);
+                        console.log(result[0]);
+                        callback(null, result[0].PHOTO);
                     }
                 }
             });
@@ -67,55 +69,20 @@ function loginUser(userP, callback) {
             con.query(sql, [userP.nickname, userP.password],
                 function(err, result) {
                     con.release();
+                    //console.log(result[0].Nickname);
                     if (err) {
                         callback(err);
                     } else {
-                        callback(null, result);
+                        if(result.length === 0){
+                            callback(null)
+                        }else{
+                            callback(null, result[0]);
+                        }
+
                     }
                 });
         }
     });
 }
 
-/*function validateUserForm()
-{
-
-    if(document.signUpForm.nickname.value == "" )
-    {
-        alert( "Por favor introduce tu nombre" );
-        document.signUpForm.nickname.focus() ;
-        return false;
-    }
-
-    if( document.signUpForm.password.value == "" )
-    {
-        alert( "Por favor introduce una contraseña" );
-        document.signUpForm.password.focus() ;
-        return false;
-    }
-
-    if( document.signUpForm.fullName.value == "" )
-    {
-        alert( "Por favor introduce tu nombre completo" );
-        document.signUpForm.password.focus() ;
-        return false;
-    }
-
-    if( document.signUpForm.date.value == "" ||
-        ( document.myForm.Zip.value ) ||
-        document.myForm.Zip.value.length != 5 )
-    {
-        alert( "Please provide a zip in the format #####." );
-        document.myForm.Zip.focus() ;
-        return false;
-    }
-
-    if( document.myForm.Country.value == "-1" )
-    {
-        alert( "Please provide your country!" );
-        return false;
-    }
-    return( true );
-
-}*/
 

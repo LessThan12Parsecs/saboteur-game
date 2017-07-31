@@ -3,16 +3,17 @@ var body = require('body-parser');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({storage:multer.memoryStorage()});
+//var upload = multer({ dest: 'uploads/' });
 var users = require('../modules/userModule');
 
 
 router.get('/signUp',function (request,response,next) {
-    var user = request.session.user;
-    response.render('signUp', {title:'SignUp',user:user});
+    //var user = request.session.user;
+    response.render('signUp', {title:'SignUp',user:undefined});
 });
 
 router.get('/Login',function (request,response,next) {
-    response.render('Login',{user:undefined});
+    response.render('Login',{title:' ',user:undefined});
 });
 
 router.post("/createUser", upload.single("photo"), function(request, response) {
@@ -22,57 +23,73 @@ router.post("/createUser", upload.single("photo"), function(request, response) {
         fullName: request.body.fullName,
         sex: request.body.sex,
         date: request.body.date,
-        photo: request.body.photo
+        photo: null
     };
-    //console.log(request.body);
+
+
+    if (request.file) {
+       // console.log(request.file.buffer);
+        user.photo = request.file.buffer;
+    }
+
     users.insertUser(user, function(err,resultID) {
-        if(err){
+       if(err){
+             console.log(err);
             console.log("Error al insertar usuario");
             return;
         }
-       //console.log(resultID);
+
         var model = { user : user};
         console.log("Se ha insertado usario con exito");
         response.render('insertSuccess',model);
     });
 });
 
-router.post("/loginUser", function(request, response) {
-    var user = request.session.user;
+/*router.post("/loginUser", function(request, response) {
+    //TODO check if the login works
+    //var user = request.session.user;
+
     var userP = {
         nickname: request.body.nickname,
         password: request.body.password,
     };
-
+    //console.log(userP);
     if(!userP.nickname || !userP.password){
         response.render('Login', {title: 'Wrong Login', user: user});
     }
     else {
-        console.log("OJHHHH");
+        //console.log("OJHHHH");
         users.loginUser(userP, function (err, result) {
-            if (typeof result[0] === "undefined") {
-                response.render('Login', {title: 'Wrong Login', user: user});
+            if (typeof result === "undefined") {
+                response.render('Login', {title: 'Wrong Login', user: undefined});
             }
             else {
                 request.session.user = userP;
-                response.render('loggedUser', {user: result})
-                console.log("loggedSuccess");
+                var userLogged = {
+                    nickname: result.Nickname,
+                    fullName: result.FullName,
+                    password: result.Password,
+                    photo:    result.Photo,
+                };
+                //console.log(userLogged);
+                response.redirect('game/dashboard', {user: userLogged})
+                //console.log("loggedSuccess");
             }
-        });
+        });]
     }
-});
+});*/
 
 router.get("/imagen/:id", function(request, response, next) {
     var n = Number(request.params.id);
     if (isNaN(n)) {
         next(new Error("Id no numérico"));
     } else {
-        obtenerImagen(n, function(err, imagen) {
+        users.obtenerImagen(n, function(err, imagen) {
             if (imagen) {
                 response.end(imagen);
             } else {
                 response.status(404);
-                response.end("Not found");
+                response.end("Not found for " + n);
             }
         });
     }

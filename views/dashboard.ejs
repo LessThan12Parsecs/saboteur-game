@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Saboteur</title>
+    <link rel='stylesheet' href='/stylesheets/style2.css' />
+  </head>
+  <body>
+  <header id="header"><img id="imagen" src="../images/Logo.png" alt=":D"></header>
+  <aside id="aside">
+      <img src="/images/user.png">
+      <% if(user!==undefined){ %>
+      <h3><%=user.nickname%></h3>
+      <% } else{ %>
+      <h3>Not Logged</h3>
+      <% } %>
+      </aside>
+  <main id="main">
+      <p>Welcome  <%=user.nickname%> </p>
+      <label for="LobbyGames">Lobby Games</label>
+      <table id="LobbyGames">
+          <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Number of Players</th>
+              <th>Delete Game</th>
+          </tr>
+          <%for (var i = 0; i <games.length; i++){%>
+          <tr>
+              <td>games[i].Name</td>
+              <td>games[i].Date</td>
+              <td>games[i].NumP</td>
+              <td>games[i].</td>
+          </tr>
+          <%}%>
+      </table>
+  </main>
+  </div>
+  </body>
+</html>
+
+
+

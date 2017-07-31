@@ -2,30 +2,44 @@ body
   background-image: url("../images/GoldCoins1920.jpeg")
   background-repeat: no-repeat
   background-size: 100%
+  display: grid;
+  grid-template-areas:  ". hd sideb"  ". main ." ". footer ."
+  grid-auto-columns: 20% 1fr 15%
+  font-family: 36px "Bellefair", Helvetica, Arial, serif
+
+#header
+  grid-area: hd
+  margin-left: auto
+  margin-right:auto
 
 
-.loginBox
-  width: 35%
-  margin: 0 auto
-  position: relative
-  border:solid rgba(34,31,32,0.59)
+
+#aside
+  grid-area: sideb
+  border: solid rgba(34,31,21,0.59)
+  border-radius: 8px
+  background-color: rgba(120,120,120,0.57)
+  margin-left: auto
+  margin-right:auto
+  text-align: center
+
+#main
+  grid-area: main
+  border: solid rgba(34,31,21,0.59)
   border-radius: 8px
   background-color: rgba(120,120,120,0.57)
   text-align: center
 
-.userBox
-  position:absolute
-  left:90%
-  width:5%
+.loginBox
 
-.big
-  width: 75%
+  margin: 0 auto
+  position: relative
+  border:solid rgba(34,31,32,0.59)
+  border-radius: 8px
 
-.Welcome h1
-  font-size:90px
+  text-align: center
 
-.Welcome
-  font-family: 36px "Bellefair", Helvetica, Arial, serif
+
 
 
 .text-form

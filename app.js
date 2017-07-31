@@ -10,18 +10,12 @@ var ejs = require('ejs');
 var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
+var game = require('./routes/game');
 var config = require('./config');
 var app = express();
-var mysqlSession = require("express-mysql-session");
 
-var MySQLStore = mysqlSession(session);
 
-var sessionStore = new MySQLStore({
-    host: config.dbHost,
-    user: config.dbUser,
-    password: config.dbPassword,
-    database: config.dbName
-});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -32,8 +26,8 @@ app.set('view engine', 'ejs');
 var middlewareSession = session({
     saveUninitialized: false,
     secret: "foobar34",
-    resave: false,
-    store: sessionStore
+    resave: false
+
 });
 
 app.use(middlewareSession);
@@ -41,11 +35,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+//app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users',users)
+app.use('/game',game)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

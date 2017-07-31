@@ -7,7 +7,7 @@
   <body>
   <div align="left" class="userBox loginBox">
     <img src="/images/user.png">
-      <% if(user){ %>
+      <% if(user!==undefined){ %>
     <h3><%=user.nickname%></h3>
       <% } else{ %>
     <h3>Not Logged</h3>
@@ -16,7 +16,7 @@
     <main role="main" align="center" class="loginBox">
       <div class="Welcome">
         <img src="../images/Logo.png" alt=":D">
-        <form class="signUp-form"action="/users/createUser" name="signUpForm" method="post">
+        <form class="signUp-form"action="/users/createUser" name="signUpForm" method="post" enctype="multipart/form-data">
           <div class="text-form">
             Username <span id="star">*</span>
           </div>

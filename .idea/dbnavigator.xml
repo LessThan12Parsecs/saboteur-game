@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7">
-        <schema name="Saboteur" object-types="function, procedure, table, view" />
+        <schema name="Saboteur" object-types="column, function, procedure, table, view" />
       </connection>
     </loaded-nodes>
   </component>
@@ -36,6 +36,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-list connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7" dataset="Saboteur.USERS" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7" dataset="Saboteur.BOARD" active-filter-id="" />
     <filter-list connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7" dataset="Saboteur.GAMES" active-filter-id="38e02e8e-f5ae-43cc-a477-78a397b93c48">
       <filter id="38e02e8e-f5ae-43cc-a477-78a397b93c48" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="idGAMES" operator="=" value="" active="true" />
