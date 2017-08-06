@@ -5,12 +5,15 @@ body
   display: grid;
   grid-template-areas:  ". hd sideb"  ". main ." ". footer ."
   grid-auto-columns: 20% 1fr 15%
-  font-family: 36px "Bellefair", Helvetica, Arial, serif
+  font-family: 'Oswald', sans-serif;
 
 #header
   grid-area: hd
   margin-left: auto
   margin-right:auto
+
+#imagenUser
+  padding-top 5px
 
 
 
@@ -22,6 +25,7 @@ body
   margin-left: auto
   margin-right:auto
   text-align: center
+  width 100px
 
 #main
   grid-area: main
@@ -39,11 +43,39 @@ body
 
   text-align: center
 
+table tr td
+  border: 1px solid cornsilk
+  padding 1px
 
+
+table
+  border-collapse: collapse
+  margin-left: auto
+  margin-right:auto
+  margin-top: 10px
+  margin-bottom 10px
+.Welcome
+  font-size 150%
+  font-style italic
+  border solid rgba(34,31,32,0.59)
+  border-radius: 8px
+  background-color rgba(218,199,126,0.45)
+  width 70%
+  margin-left auto
+  margin-right auto
 
 
 .text-form
   color:whitesmoke
+
+.labelTitle
+  font-size 150%
+  border solid rgba(34,31,32,0.59)
+  border-radius: 8px
+  background-color rgba(163,218,140,0.45)
+  padding 1px
+  padding-left 10px
+  padding-right 10px
 
 
 #star
@@ -85,9 +117,21 @@ input[type=text]:focus ,input[type=password]:focus ,input[type=date]:focus
   cursor: pointer
   margin: 5px
 
+.buttonSmall
+  padding 4px
+  width 50px
+  margin 3px
+  font-size 15px
+  border-radius 1px
 
 .green
   background-color: green
+.tomato
+  background-color: tomato
+.partidasButton
+  background-color burlywood
+  width 150px
+  font-size 20px
 
 .gold
   background-color: gold

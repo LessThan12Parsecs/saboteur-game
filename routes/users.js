@@ -45,40 +45,6 @@ router.post("/createUser", upload.single("photo"), function(request, response) {
     });
 });
 
-/*router.post("/loginUser", function(request, response) {
-    //TODO check if the login works
-    //var user = request.session.user;
-
-    var userP = {
-        nickname: request.body.nickname,
-        password: request.body.password,
-    };
-    //console.log(userP);
-    if(!userP.nickname || !userP.password){
-        response.render('Login', {title: 'Wrong Login', user: user});
-    }
-    else {
-        //console.log("OJHHHH");
-        users.loginUser(userP, function (err, result) {
-            if (typeof result === "undefined") {
-                response.render('Login', {title: 'Wrong Login', user: undefined});
-            }
-            else {
-                request.session.user = userP;
-                var userLogged = {
-                    nickname: result.Nickname,
-                    fullName: result.FullName,
-                    password: result.Password,
-                    photo:    result.Photo,
-                };
-                //console.log(userLogged);
-                response.redirect('game/dashboard', {user: userLogged})
-                //console.log("loggedSuccess");
-            }
-        });]
-    }
-});*/
-
 router.get("/imagen/:id", function(request, response, next) {
     var n = Number(request.params.id);
     if (isNaN(n)) {

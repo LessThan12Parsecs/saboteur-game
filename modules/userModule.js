@@ -51,7 +51,7 @@ function obtenerImagen(id, callback) {
                     if (result.length === 0) {
                         callback(null);
                     } else {
-                        console.log(result[0]);
+                        //console.log(result[0]);
                         callback(null, result[0].PHOTO);
                     }
                 }

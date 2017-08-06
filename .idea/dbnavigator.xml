@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="b8533f4b-2720-4f64-b162-ac4ed68d3dc7">
-        <schema name="Saboteur" object-types="column, function, procedure, table, view" />
+        <schema name="Saboteur" object-types="column, constraint, function, index, procedure, table, dataset trigger, view" />
       </connection>
     </loaded-nodes>
   </component>
