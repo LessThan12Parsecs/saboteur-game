@@ -6,55 +6,41 @@
     <link rel='stylesheet' href='/stylesheets/style2.css' />
   </head>
   <body>
-  <header id="header"><img id="imagen" src="../images/Logo.png" alt=":D"></header>
+  <header id="header"><img id="imagen" src="../../images/Logo.png" alt=":D"></header>
   <aside id="aside">
-      <% if (photo!==undefined) { %>
-      <img id="imagenUser" src="/users/imagen/<%= id %>" width="50" height="50">
+      <% if (user) { %>
+      <img id="imagenUser" src="/users/imagen/<%= user.id %>" width="50" height="50">
       <% } %>
-      <% if(nickname!==undefined){ %>
-      <h3><%=nickname%></h3>
+      <% if(user.nickname!==undefined){ %>
+      <h3><%=user.nickname%></h3>
       <% } else{ %>
       <h3>Not Logged</h3>
       <% } %>
-      </aside>
+  </aside>
   <main id="main">
-      <p class="Welcome">Welcome  <%=nickname%> </p>
+      <p class="Welcome">Welcome  <%=user.nickname%> </p>
       <label class="labelTitle" for="LobbyGames">Partidas Abiertas</label>
       <table id="LobbyGames">
           <tr>
               <th>Name</th>
               <th>Date</th>
-              <th>Number of Players</th>
-              <th>  </th>
+              <th>Players</th>
           </tr>
-          <%for (var i = 0; i <games.length; i++){%>
-          <%if(games[i].Status =='a'){%>
-          <tr>
-              <td><%=games[i].Name%></td>
-              <td><%=games[i].date%></td>
-              <td><%=games[i].MaxUsers%></td>
-              <td><div class="button tomato buttonSmall" style="vertical-align: middle"><a href="/game/start/:<%=i%>">Start</a></div></td>
-          </tr>
-          <%}%><%}%>
+          <%if(user.openGames !==undefined){%>
+          <%for (var i = 0; i <user.openGames.length; i++){%>
+              <tr>
+                  <td><%=user.openGames[i].nombrePartida%></td>
+                  <td><%=user.openGames[i].date%></td>
+                  <td>
+                  <%if(user.openGames[i].players!==undefined){ %>
+                  <%for (var j = 0; j <user.openGames[i].players.length; j++){%>
+                    <%=user.openGames[i].players[j].Nickname%>
+                  <%}}%>
+                  </td>
+                  <td><div class="button tomato buttonSmall" style="vertical-align: middle"><a href="/table/join/<%=user.id%>/<%=user.openGames[i].idGAMES%>">Join</a></div></td>
+              </tr>
+          <%}}%>
       </table>
-      <label class="labelTitle" for="LobbyGames">Partidas en Curso</label>
-      <table id="LobbyGames">
-          <tr>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Number of Players</th>
-          </tr>
-          <%for (var i = 0; i <games.length; i++){%>
-          <%if(games[i].Status =='c'){%>
-          <tr>
-              <td><%=games[i].Name%></td>
-              <td><%=games[i].date%></td>
-              <td><%=games[i].MaxUsers%></td>
-          </tr>
-          <%}%><%}%>
-      </table>
-      <div class="button partidasButton " style="vertical-align: middle"><a href="/game/join/:<%=id%>">Unirse a partida</a></div>
-      <div class="button partidasButton " style="vertical-align: middle"><a href="/game/create/:<%=id%>">Crear partida</a></div>
   </main>
   </div>
   </body>

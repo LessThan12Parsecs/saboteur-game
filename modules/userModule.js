@@ -85,4 +85,29 @@ function loginUser(userP, callback) {
     });
 }
 
+function dealHand(userP, callback) {
+    pool.getConnection(function(err, con) {
+        if (err) {
+            callback(err);
+        } else {
+            var sql = "UPDATE * FROM USERS WHERE NICKNAME = ? AND PASSWORD = ?";
+            con.query(sql, [userP.nickname, userP.password],
+                function(err, result) {
+                    con.release();
+                    //console.log(result[0].Nickname);
+                    if (err) {
+                        callback(err);
+                    } else {
+                        if(result.length === 0){
+                            callback(null)
+                        }else{
+                            callback(null, result[0]);
+                        }
+
+                    }
+                });
+        }
+    });
+}
+
 

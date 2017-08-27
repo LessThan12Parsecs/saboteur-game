@@ -10,7 +10,8 @@ var ejs = require('ejs');
 var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var game = require('./routes/game');
+var games = require('./routes/games');
+var table = require('./routes/table');
 var config = require('./config');
 var app = express();
 
@@ -27,10 +28,9 @@ var middlewareSession = session({
     saveUninitialized: false,
     secret: "foobar34",
     resave: false
-
 });
-
 app.use(middlewareSession);
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,8 +39,9 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users',users)
-app.use('/game',game)
+app.use('/users',users);
+app.use('/games',games);
+app.use('/table',table);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

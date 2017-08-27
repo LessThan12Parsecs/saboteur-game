@@ -1,9 +1,9 @@
 body
   background-image: url("../images/GoldCoins1920.jpeg")
-  background-repeat: no-repeat
+  background-repeat: repeat-y
   background-size: 100%
   display: grid;
-  grid-template-areas:  ". hd sideb"  ". main ." ". footer ."
+  grid-template-areas:  ". hd sideb"  ". main ." ". hand ."
   grid-auto-columns: 20% 1fr 15%
   font-family: 'Oswald', sans-serif;
 
@@ -15,7 +15,14 @@ body
 #imagenUser
   padding-top 5px
 
-
+#hand
+  grid-area: hand
+  padding 0px
+  border solid whitesmoke
+  background-color rgba(114,107,107,0.48)
+  border-radius 5px
+  text-align center
+  color whitesmoke
 
 #aside
   grid-area: sideb
@@ -47,6 +54,9 @@ table tr td
   border: 1px solid cornsilk
   padding 1px
 
+table th
+  border 1px solid aliceblue
+  background-color rgba(187,187,187,0.42)
 
 table
   border-collapse: collapse
@@ -54,6 +64,7 @@ table
   margin-right:auto
   margin-top: 10px
   margin-bottom 10px
+
 .Welcome
   font-size 150%
   font-style italic
@@ -65,8 +76,20 @@ table
   margin-right auto
 
 
+
 .text-form
   color:whitesmoke
+
+.subtitle
+  border solid gainsboro 2px
+  border-radius 1%
+  padding 3px
+
+.board
+
+
+.warning
+  color: red
 
 .labelTitle
   font-size 150%
@@ -122,7 +145,7 @@ input[type=text]:focus ,input[type=password]:focus ,input[type=date]:focus
   width 50px
   margin 3px
   font-size 15px
-  border-radius 1px
+  border-radius 9px
 
 .green
   background-color: green

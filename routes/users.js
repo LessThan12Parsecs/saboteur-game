@@ -2,6 +2,7 @@ var express = require('express');
 var body = require('body-parser');
 var router = express.Router();
 var multer = require('multer');
+var moment = require('moment');
 var upload = multer({storage:multer.memoryStorage()});
 //var upload = multer({ dest: 'uploads/' });
 var users = require('../modules/userModule');
@@ -9,10 +10,11 @@ var users = require('../modules/userModule');
 
 router.get('/signUp',function (request,response,next) {
     //var user = request.session.user;
-    response.render('signUp', {title:'SignUp',user:undefined});
+    response.render('signUp', {title:' ',user:undefined});
 });
 
 router.get('/Login',function (request,response,next) {
+
     response.render('Login',{title:' ',user:undefined});
 });
 
@@ -36,6 +38,7 @@ router.post("/createUser", upload.single("photo"), function(request, response) {
        if(err){
              console.log(err);
             console.log("Error al insertar usuario");
+            response.render('signUp', {title: 'Wrong user - Try Again', user: undefined});
             return;
         }
 

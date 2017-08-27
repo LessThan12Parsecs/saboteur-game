@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Saboteur</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style2.css' />
+  </head>
+  <body>
+  <header id="header"><img id="imagen" src="/images/Logo.png" alt=":D"></header>
+  <aside id="aside">
+      <% if (game.userNick) { %>
+      <img id="imagenUser" src="/users/imagen/<%= game.userId %>" width="50" height="50">
+        <% if(game.userNick!==undefined){ %>
+            <h3><%=game.userNick%></h3>
+         <%} else{ %>
+            <h3>Not Logged</h3>
+      <% }} %>
+  </aside>
+  <main id="main">
+      <p class="Welcome"> Welcome to game <%=game.name%> </p>
+      <a class="subtitle">Host: <%=game.host%>  </a>
+      <a class="subtitle">In table: <%=game.players%>  </a>
+      <a class="subtitle">Turn: <%=game.currentTurn%>  </a>
+      <a class="subtitle">Turns Left: <%=game.turnsLeft%>  </a>
+      <p class="Welcome">Board</p>
+      <table id="Board">
+          <%for (var i = 0; i <game.board.length; i++){%>
+              <tr>
+                  <%for (var j = 0; j <game.board[i].length; j++){%>
+                    <%if(game.board[i][j]==='0'){ %>
+                        <td><img src="/../images/Empty.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='s'){%>
+                        <td><img src="/../images/Start.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='y'){%>
+                        <td><img src="/../images/DNK.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='x'){%>
+                        <td><img src="/../images/DNK.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='1'){%>
+                        <td><img src="/../images/T1.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='2'){%>
+                        <td><img src="/../images/T2.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='3'){%>
+                        <td><img src="/../images/T3.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='4'){%>
+                        <td><img src="/../images/T4.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='5'){%>
+                        <td><img src="/../images/T5.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='6'){%>
+                        <td><img src="/../images/T6.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='7'){%>
+                        <td><img src="/../images/T7.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='8'){%>
+                        <td><img src="/../images/T8.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='9'){%>
+                        <td><img src="/../images/T9.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='a'){%>
+                        <td><img src="/../images/T10.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='b'){%>
+                        <td><img src="/../images/T11.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='c'){%>
+                        <td><img src="/../images/T12.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='d'){%>
+                        <td><img src="/../images/T13.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='e'){%>
+                        <td><img src="/../images/T14.png" width="80" height="80"></td>
+                    <%}else if (game.board[i][j]==='f'){%>
+                        <td><img src="/../images/T15.png" width="80" height="80"></td>
+                    <%}}%>
+              </tr>
+          <%}%>
+      </table>
+  </main>
+  <hand id="hand">
+      <p> Pick a card</p>
+      <% if(game.hand && game.status === 'a'){%>
+          <%for (var n = 0; n <game.hand.length; n++){%>
+          <%if(game.hand[n]==='0'){ %>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/Empty.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='s'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/Start.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='y'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/DNK.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='x'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/DNK.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='1'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T1.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='2'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T2.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='3'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T3.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='4'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T4.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='5'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T5.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='6'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T6.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='7'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T7.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='8'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T8.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='9'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T9.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='a'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T10.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='b'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T11.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='c'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T12.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='d'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T13.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='e'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T14.png" width="80" height="80"></a></tr>
+          <%}else if (game.hand[n]==='f'){%>
+      <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/T15.png" width="80" height="80"></a></tr>
+          <%}}%>
+      </table>
+      <%}else{%>
+        <p>Wait for the game to start</p>
+      <%}%>
+  </hand>
+  </body>
+</html>
+
+
+

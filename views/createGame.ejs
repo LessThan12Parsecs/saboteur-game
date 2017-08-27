@@ -7,8 +7,10 @@
   </head>
   <body>
   <div align="left" class="userBox loginBox">
-    <img src="/images/user.png">
-      <% if(user!==undefined){ %>
+      <% if (user) { %>
+    <img id="imagenUser" src="/users/imagen/<%= user.id %>" width="50" height="50">
+      <% } %>
+      <% if(user.nickname!==undefined){ %>
     <h3><%=user.nickname%></h3>
       <% } else{ %>
     <h3>Not Logged</h3>
@@ -16,36 +18,24 @@
   </div>
     <main role="main" align="center" class="loginBox">
       <div class="Welcome">
-        <img src="../images/Logo.png" alt=":D">
-        <form class="signUp-form"action="/users/createUser" name="signUpForm" method="post" enctype="multipart/form-data">
+        <img src="/images/Logo.png" alt=":D">
+        <form class="signUp-form"action="/games/createGame" method="post">
           <div class="text-form">
-            Username <span id="star">*</span>
+            Nombre de la partida
           </div>
-          <input type="text" name="nickname" vvalue="">
-          <div class="text-form">
-            Password <span id="star">*</span>
-          </div>
-          <input type="password" name="password" value="">
-          <div class="text-form">
-            Full name  <span id="star">*</span>
-          </div>
-          <input type="text" name="fullName" value="">
-          <div class="text-form">
-            Sex
-          </div>
-          <input id='HombreR' type="radio" name="sex" value="M">
-          <label class="text-form" for="HombreR">Male</label>
-
-          <input id='MujerR' type="radio" name="sex" value="F" check>
-          <label class="text-form" for="MujerR">Female</label><br>
-
-          <label class="text-form" for="date">Date of Birth</label>
-          <input type="date" name="date" value="YYYY-MM-DD"/><br>
-
-          <label class="text-form" for="Photo">Photo</label>
-          <input id="Photo" type="file" name="photo" value=" "><br><br>
-
-          <input class="button green" type="submit" value="Submit">
+          <input type="text" name="gameName" value="">
+          <p> </p>
+          <a>Numero de Jugadores</a>
+          <select name="numPlayers">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <input type="hidden" name="userId" value=<%= user.id %>>
+          <input class="button green" type="submit" value="Crear">
         </form>
       </div>
     </main>
