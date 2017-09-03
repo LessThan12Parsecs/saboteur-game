@@ -22,6 +22,7 @@
       <a class="subtitle">In table: <%=game.players%>  </a>
       <a class="subtitle">Turn: <%=game.currentTurn%>  </a>
       <a class="subtitle">Turns Left: <%=game.turnsLeft%>  </a>
+      <div class="buttonSmall tomato"><a href="/games/dashboard/">Dashboard</a></div>
       <p class="Welcome">Board</p>
       <table id="Board">
           <%for (var i = 0; i <game.board.length; i++){%>
@@ -72,7 +73,7 @@
   </main>
   <hand id="hand">
       <p> Pick a card</p>
-      <% if(game.hand && game.status === 'a'){%>
+      <% if(game.hand && game.status === 'c' && game.currentTurn === game.userNick){%>
           <%for (var n = 0; n <game.hand.length; n++){%>
           <%if(game.hand[n]==='0'){ %>
       <tr><a href="/table/playCard/<%=game.hand[n]%>"><img src="/../images/Empty.png" width="80" height="80"></a></tr>
@@ -115,7 +116,7 @@
           <%}}%>
       </table>
       <%}else{%>
-        <p>Wait for the game to start</p>
+        <p>Wait for your turn</p>
       <%}%>
   </hand>
   </body>

@@ -51,9 +51,7 @@
                       <td><%=user.games[i].Name%></td>
                       <td><%=user.games[i].date%></td>
                       <td><%=user.games[i].CurrentUser%></td>
-                      <%if(user.games[i].CurrentUser === user.nickname){%>
-                      <td><div class="button tomato buttonSmall" style="vertical-align: middle"><a href="/games/play/<%=user.games[i].idGAMES%>">Play</a></div></td>
-                      <%}%>
+                      <td><div class="button tomato buttonSmall" style="vertical-align: middle"><a href="/table/view/<%=user.nickname%>/<%=user.id%>/<%=user.games[i].idGAMES%>">View</a></div></td>
                   </tr>
               <%}}}%>
       </table>
@@ -70,7 +68,7 @@
                   <tr>
                       <td><%=user.games[i].Name%></td>
                       <td><%=user.games[i].date%></td>
-                      <td><%=user.games[i].currentUser%></td>
+                      <td><%=user.games[i].host%></td>
                   </tr>
               <%}}}%>
       </table>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Saboteur</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style2.css' />
+  </head>
+  <body>
+  <header id="header"><img id="imagen" src="/images/Logo.png" alt=":D"></header>
+  <aside id="aside">
+      <% if (game.userNick) { %>
+      <img id="imagenUser" src="/users/imagen/<%= game.userId %>" width="50" height="50">
+        <% if(game.userNick!==undefined){ %>
+            <h3><%=game.userNick%></h3>
+         <%} else{ %>
+            <h3>Not Logged</h3>
+      <% }} %>
+  </aside>
+  <main id="main">
+      <%if(title!==undefined){%>
+        <p class="Welcome"><%=title%></p>
+      <%} else {%>
+        <p class="Welcome"></p>
+      <%}%>
+      <img src="/public/YouWin.png">
+      <div class="button tomato"><a href="/games/dashboard/">Dashboard</a></div>
+  </main>
+
+  </body>
+</html>
+
+
+

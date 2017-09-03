@@ -16,7 +16,6 @@ var userLogged = {
     games: {players : null}
 }; //TODO find out why it doesn't work with sessions
 
-//TODO player count important for game creation
 router.post('/dashboard', function(request, response) {
 
     if (userLogged.id!==null) {
@@ -71,7 +70,7 @@ router.get('/dashboard',function(request,response){
         response.redirect('/users/Login');
     }
 });
-//TODO DANG
+
 router.get('/start/:id',function (request,response) {
 
     games.changeGameStatus(game,function () {

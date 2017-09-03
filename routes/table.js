@@ -30,10 +30,13 @@ var cards = ['1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
 //Then logic of [i][j]:
 // if [i-1][j] = leftSide then not possible, rightSide is possible if [i][j] = leftSide
 
-var leftSide = [];
-var rightSide = [];
-var topSide = [];
-var bottomSide = [];
+var leftSide = ['y','x','s','8','9','a','b','c','d','e','f'];
+var rightSide = ['y','x','s','2','3','6','7','a','b','e','f'];
+var topSide = ['y','x','s','4','5','6','7','c','d','e','f'];
+var bottomSide = ['y','x','s','1','3','5','7','9','b','d','f'];
+var validRoads = ['s','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+
+var roles = ['s','b','b','b','s','b','b']; //TODO Implement roles for part 3 roles[0-->2] is for 3 players and so on...
 
 
 var currentGame = {
@@ -54,17 +57,21 @@ var currentGame = {
 };
 
 router.get('/join/:idUser/:idGame',function (request,response) {
-    //currentGame.userNick = request.params.nick;
-    currentGame.userId = request.params.idUser;
-    currentGame.gameId = request.params.idGame;
-    games.addPlayerToGame(currentGame.userId,currentGame.gameId,function (err,result) {
-            if(!err){
-                if(currentGame.numPlayers+1 >= currentGame.maxPlayers){
-                    games.changeGameStatus('c',currentGame.gameId,function (err,result2) {
-                        //Game starts
-                    });
-                }
-                response.redirect('/games/dashboard'); //Player joined game and it's redirected to dashboard
+    var userId = request.params.idUser;
+    var gameId = request.params.idGame;
+    games.addPlayerToGame(userId,gameId,function (err,result) {
+            if(!err) {
+                games.getNumberOfPlayers(gameId, function (err, result2) {
+                    var numPlayers = result2[0].playersNum;
+                    var maxPlayers = result2[0].MaxUsers;
+                    if (numPlayers + 1 > maxPlayers) {
+                        games.changeGameStatus('c', gameId, function (err, result3) {
+                            response.redirect('/games/dashboard');
+                        });
+                    } else {
+                        response.redirect('/games/dashboard');
+                    }
+                });
             }
     });
 });
@@ -112,16 +119,58 @@ router.get('/view/:userNick/:userId/:gameId',function (request,response) {
 });
 
 router.get('/placeAt/:i/:j/:card',function (request,response) {
-    var i = request.params.i;
-    var j = request.params.j;
+    var i = parseInt(request.params.i);
+    var j = parseInt(request.params.j);
     var card = request.params.card;
     if(currentGame.board[i][j]!=='0'){
         response.render('insertCard',{game:currentGame,card:card,title:"There's a card already there!!"});
+    }
+    else if ((i<7&&_.contains(validRoads,currentGame.board[i+1][j]))
+        ||(i>0&&_.contains(validRoads,currentGame.board[i-1][j]))
+        ||(j<7&&_.contains(validRoads,currentGame.board[i][j+1]))
+        ||(j>0&&_.contains(validRoads,currentGame.board[i][j-1]))){
+        if(i<7&& _.contains(topSide,currentGame.board[i+1][j]) && _.contains(bottomSide,card)){
+            playCard(i,j,response,card);
+        }
+        else if (i>0&&_.contains(bottomSide,currentGame.board[i-1][j]) && _.contains(topSide,card)){
+            playCard(i,j,response,card);
+        }
+        else if (j<7&&_.contains(leftSide,currentGame.board[i][j+1]) && _.contains(rightSide,card)){
+            playCard(i,j,response,card);
+        }
+        else if (j>0&&_.contains(rightSide,currentGame.board[i][j-1]) && _.contains(leftSide,card)){
+            playCard(i,j,response,card);
+        }
+        else{
+            response.render('insertCard',{game:currentGame,card:card,title:"Invalid place"});
+        }
+    }
+    else{
+        response.render('insertCard',{game:currentGame,card:card,title:"Invalid place"})
     }
 });
 
 router.get('/exit',function (request,response) {
     response.redirect('/');
+});
+
+router.get('/dropCard/:c',function (request,response) {
+    var card = request.params.c;
+    currentGame.hand = _.without(currentGame.hand,card);
+    currentGame.hand.push(_.sample(cards,1)[0]);
+    table.storeHand(currentGame.hand,currentGame.gameId,currentGame.userId,function (err,result) {
+        table.nextTurn(currentGame.gameId,currentGame.userId,function (err,result2){
+            currentGame.currentTurn = result2[0].Nickname;
+            if(err){
+                response.error();
+            }
+            else{
+                table.updateGame(currentGame,function (err,result3)  {
+                    response.render('Table',{game:currentGame});
+                });
+            }
+        });
+    });
 });
 
 //function to convert from string to 2dimensional array.
@@ -131,5 +180,32 @@ function toMatrix(arr, width) {
             : rows[rows.length-1].push(key)) && rows;
     }, []);
 }
+
+function playCard(i,j,response,card){
+    currentGame.board[i][j] = card;
+    if((i>0 && currentGame.board[i+1][j]==='x')||(i < 7 &&currentGame.board[i-1][j]==='x' ) ||(j < 7 && currentGame.board[i][j+1]==='x')){
+        games.changeGameStatus('t',currentGame.gameId,function (err,result) {
+            response.render('Win',{game:currentGame});
+        });
+    }
+    else{
+
+        currentGame.hand = _.without(currentGame.hand,card);
+        currentGame.hand.push(_.sample(cards,1)[0]);
+
+        table.nextTurn(currentGame.gameId,currentGame.userId,function (err,result){
+            currentGame.currentTurn = result[0].Nickname;
+            if(err){
+                response.error();
+            }
+            else{
+                table.updateGame(currentGame,function (err,result2)  {
+                    response.render('Table',{game:currentGame});
+                });
+            }
+        });
+    }
+}
 module.exports = router;
+
 

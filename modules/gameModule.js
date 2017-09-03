@@ -112,7 +112,7 @@ function getOpenGames(userP, callback) {
         if (err) {
             callback(err);
         } else {
-            var sql = "SELECT g.Name AS nombrePartida,g.idGAMES,g.playersNum,g.turnsLeft,g.MaxUsers,g.CurrentUser,g.Status,g.Host,g.Date,u.Nickname " +
+            var sql = "SELECT DISTINCT g.Name AS nombrePartida,g.idGAMES,g.playersNum,g.turnsLeft,g.MaxUsers,g.CurrentUser,g.Status,g.Host,g.Date " +
             "FROM GAMES g " +
             "JOIN PLAYING p ON g.idGAMES = p.GameID "+
             "JOIN USERS u ON u.idUSERS = p.UserID "+
@@ -148,7 +148,7 @@ function getNumberOfPlayers(id,callback) {
         if (err) {
             callback(err);
         } else {
-            var sql = "SELECT COUNT(*) AS numPlayers FROM PLAYING WHERE GameID = ?;";
+            var sql = "SELECT playersNum,MaxUsers FROM GAMES WHERE idGAMES = ?;";
             con.query(sql, [id],
                 function(err, result) {
                     con.release();
@@ -193,10 +193,7 @@ function addPlayerToGame(userId,gameId,callback) {
         if (err) {
             callback(err);
         } else {
-            var sql = "INSERT INTO PLAYING(UserID,GameID) VALUES (?,?); "/* +
-                "UPDATE GAMES " +
-                "SET playersNum = playersNum + 1 " +
-                "WHERE idGAMES = ?;"*/;
+            var sql = "INSERT INTO PLAYING(UserID,GameID) VALUES (?,?);";
             con.query(sql, [userId,gameId,gameId],
                 function(err, result) {
                     con.release();
@@ -206,7 +203,16 @@ function addPlayerToGame(userId,gameId,callback) {
                         if(result.length === 0){
                             callback(null)
                         }else{
-                            callback(null, result);
+                            var sql2 =  "UPDATE GAMES " +
+                                "SET playersNum = playersNum + 1 " +
+                                "WHERE idGAMES = ?;";
+                            con.query(sql2,[gameId],function (err,result2) {
+                                if(err){
+                                    callback(err);
+                                    return;
+                                }
+                                callback(null,result);
+                            });
                         }
                     }
                 });
