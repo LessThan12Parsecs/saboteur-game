@@ -4,12 +4,12 @@ var router = express.Router();
 
 /* GET pages. */
 router.get('/', function(request, response, next) {
-  //var user = request.session.user;
-  if(request.session.user === undefined){
-      response.render('index',{ user:undefined});
+  if(request.session.user){
+      response.redirect('/games/dashboard');
+
   }
   else{
-      response.redirect('/game/dashboard');
+      response.render('index',{ user:undefined});
   }
 });
 

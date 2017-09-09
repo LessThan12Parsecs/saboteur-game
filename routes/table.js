@@ -39,23 +39,6 @@ var validRoads = ['s','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f
 var roles = ['s','b','b','b','s','b','b']; //TODO Implement roles for part 3 roles[0-->2] is for 3 players and so on...
 
 
-var currentGame = {
-    userId:null,
-    gameId:null,
-    userNick:null,
-    name:null,
-    status:null,
-    host:null,
-    maxPlayers:null,
-    numPlayers:null,
-    currentTurn:null,
-    turnsLeft:null,
-    players:null,
-    board:null,
-    role:null,
-    hand:null
-};
-
 router.get('/join/:idUser/:idGame',function (request,response) {
     var userId = request.params.idUser;
     var gameId = request.params.idGame;
@@ -78,10 +61,12 @@ router.get('/join/:idUser/:idGame',function (request,response) {
 
 router.get('/playCard/:c',function (request,response) {
     var card = request.params.c;
+    var currentGame = request.session.game;
     response.render('insertCard',{game:currentGame,card:card,title:undefined});
 });
 
 router.get('/view/:userNick/:userId/:gameId',function (request,response) {
+    var currentGame = {};
     currentGame.userNick = request.params.userNick;
     currentGame.gameId = request.params.gameId;
     currentGame.userId = request.params.userId;
@@ -95,6 +80,7 @@ router.get('/view/:userNick/:userId/:gameId',function (request,response) {
             currentGame.turnsLeft = result[0].turnsLeft;
             currentGame.board = result[0].Board.split('');
             currentGame.board = toMatrix(currentGame.board,7);
+            currentGame.numPlayers = result[0].playersNum;
             table.getHandByUserInGame(currentGame.userNick,currentGame.gameId,function (err,result2) {
                 if(result2[0].Hand){
                     currentGame.hand = result2[0].Hand;
@@ -112,8 +98,9 @@ router.get('/view/:userNick/:userId/:gameId',function (request,response) {
                     })
                 }
                 response.render('Table',{game:currentGame});
-            })
+            });
 
+            request.session.game = currentGame;
         }
     });
 });
@@ -122,6 +109,7 @@ router.get('/placeAt/:i/:j/:card',function (request,response) {
     var i = parseInt(request.params.i);
     var j = parseInt(request.params.j);
     var card = request.params.card;
+    var currentGame = request.session.game;
     if(currentGame.board[i][j]!=='0'){
         response.render('insertCard',{game:currentGame,card:card,title:"There's a card already there!!"});
     }
@@ -130,16 +118,16 @@ router.get('/placeAt/:i/:j/:card',function (request,response) {
         ||(j<7&&_.contains(validRoads,currentGame.board[i][j+1]))
         ||(j>0&&_.contains(validRoads,currentGame.board[i][j-1]))){
         if(i<7&& _.contains(topSide,currentGame.board[i+1][j]) && _.contains(bottomSide,card)){
-            playCard(i,j,response,card);
+            playCard(i,j,response,card,currentGame);
         }
         else if (i>0&&_.contains(bottomSide,currentGame.board[i-1][j]) && _.contains(topSide,card)){
-            playCard(i,j,response,card);
+            playCard(i,j,response,card,currentGame);
         }
         else if (j<7&&_.contains(leftSide,currentGame.board[i][j+1]) && _.contains(rightSide,card)){
-            playCard(i,j,response,card);
+            playCard(i,j,response,card,currentGame);
         }
         else if (j>0&&_.contains(rightSide,currentGame.board[i][j-1]) && _.contains(leftSide,card)){
-            playCard(i,j,response,card);
+            playCard(i,j,response,card,currentGame);
         }
         else{
             response.render('insertCard',{game:currentGame,card:card,title:"Invalid place"});
@@ -154,19 +142,33 @@ router.get('/exit',function (request,response) {
     response.redirect('/');
 });
 
+router.get('/Win',function (request,response) {
+    var currentGame = request.session.game;
+    response.render('Win',{game:currentGame});
+});
+
+router.get('/close',function (request,response) {
+    var currentGame = request.session.game;
+    games.changeGameStatus('c',currentGame.gameId,function (err,result) {
+        response.redirect('/table/view/'+currentGame.userNick+'/'+currentGame.userId+'/'+currentGame.gameId);
+    });
+});
+
+
 router.get('/dropCard/:c',function (request,response) {
     var card = request.params.c;
+    var currentGame = request.session.game;
     currentGame.hand = _.without(currentGame.hand,card);
     currentGame.hand.push(_.sample(cards,1)[0]);
     table.storeHand(currentGame.hand,currentGame.gameId,currentGame.userId,function (err,result) {
-        table.nextTurn(currentGame.gameId,currentGame.userId,function (err,result2){
-            currentGame.currentTurn = result2[0].Nickname;
+        games.getNamesOfPlayers(currentGame.gameId,function (err,result2){
+            currentGame.currentTurn = getNextTurn(result2,currentGame.currentTurn);
             if(err){
                 response.error();
             }
             else{
                 table.updateGame(currentGame,function (err,result3)  {
-                    response.render('Table',{game:currentGame});
+                    response.redirect('/table/view/'+currentGame.userNick+'/'+currentGame.userId+'/'+currentGame.gameId);
                 });
             }
         });
@@ -181,11 +183,20 @@ function toMatrix(arr, width) {
     }, []);
 }
 
-function playCard(i,j,response,card){
+function getNextTurn(result,currentTurn) {
+    var nameList = [];
+    result.forEach(function (row) {
+        nameList.push(row.Nickname);
+    });
+    return (_.indexOf(nameList,currentTurn) < nameList.length - 1)
+        ? nameList[_.indexOf(nameList,currentTurn) + 1] : nameList[0];
+}
+
+function playCard(i,j,response,card,currentGame){
     currentGame.board[i][j] = card;
     if((i>0 && currentGame.board[i+1][j]==='x')||(i < 7 &&currentGame.board[i-1][j]==='x' ) ||(j < 7 && currentGame.board[i][j+1]==='x')){
-        games.changeGameStatus('t',currentGame.gameId,function (err,result) {
-            response.render('Win',{game:currentGame});
+        games.changeGameStatus('t',currentGame.gameId,function (err,result3) {
+            response.redirect('/table/Win');
         });
     }
     else{
@@ -193,14 +204,16 @@ function playCard(i,j,response,card){
         currentGame.hand = _.without(currentGame.hand,card);
         currentGame.hand.push(_.sample(cards,1)[0]);
 
-        table.nextTurn(currentGame.gameId,currentGame.userId,function (err,result){
-            currentGame.currentTurn = result[0].Nickname;
+        games.getNamesOfPlayers(currentGame.gameId,function (err,result){
+
+            currentGame.currentTurn = getNextTurn(result,currentGame.currentTurn);
+
             if(err){
                 response.error();
             }
             else{
                 table.updateGame(currentGame,function (err,result2)  {
-                    response.render('Table',{game:currentGame});
+                    response.redirect('/table/view/'+currentGame.userNick+'/'+currentGame.userId+'/'+currentGame.gameId);
                 });
             }
         });

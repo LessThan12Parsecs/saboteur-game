@@ -6,7 +6,7 @@
     <link rel='stylesheet' href='/stylesheets/style2.css' />
   </head>
   <body>
-  <header id="header"><img id="imagen" src="../images/Logo.png" alt=":D"></header>
+  <header id="header"><img id="imagen" src="/images/Logo.png" alt=":D"></header>
   <aside id="aside">
       <% if (user) { %>
           <img id="imagenUser" src="/users/imagen/<%= user.id %>" width="50" height="50">
@@ -68,13 +68,13 @@
                   <tr>
                       <td><%=user.games[i].Name%></td>
                       <td><%=user.games[i].date%></td>
-                      <td><%=user.games[i].host%></td>
+                      <td><%=user.games[i].CurrentUser%></td>
                   </tr>
               <%}}}%>
       </table>
-      <div class="button partidasButton " style="vertical-align: middle"><a href="/games/openGames/">Unirse a partida</a></div>
-      <div class="button partidasButton " style="vertical-align: middle"><a href="/games/create/">Crear partida</a></div>
-      <div class="button tomato " style="vertical-align: middle"><a href="/games/exit/">Salir</a></div>
+      <div class="button partidasButton " style="vertical-align: middle"><a href="/games/openGames/">Join a game</a></div>
+      <div class="button partidasButton " style="vertical-align: middle"><a href="/games/create/">Create game</a></div>
+      <div class="button tomato " style="vertical-align: middle"><a href="/games/exit/">Exit</a></div>
   </main>
   </div>
   </body>

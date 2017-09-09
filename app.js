@@ -15,7 +15,16 @@ var table = require('./routes/table');
 var config = require('./config');
 var app = express();
 
+var mysqlSession = require("express-mysql-session");
 
+var MySQLStore = mysqlSession(session);
+
+var sessionStore = new MySQLStore({
+    host: config.dbHost,
+    user: config.dbUser,
+    password: config.dbPassword,
+    database:config.dbName
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +36,8 @@ app.set('view engine', 'ejs');
 var middlewareSession = session({
     saveUninitialized: false,
     secret: "foobar34",
-    resave: false
+    resave: false,
+    store: sessionStore
 });
 app.use(middlewareSession);
 
@@ -42,6 +52,8 @@ app.use('/', index);
 app.use('/users',users);
 app.use('/games',games);
 app.use('/table',table);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

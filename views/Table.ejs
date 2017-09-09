@@ -22,6 +22,9 @@
       <a class="subtitle">In table: <%=game.players%>  </a>
       <a class="subtitle">Turn: <%=game.currentTurn%>  </a>
       <a class="subtitle">Turns Left: <%=game.turnsLeft%>  </a>
+      <%if(game.host === game.userNick && game.numPlayers >= 3 && game.status === 'a'){%>
+        <div class="buttonSmall green"><a href="/table/close/">Begin Game</a></div>
+      <%}%>
       <div class="buttonSmall tomato"><a href="/games/dashboard/">Dashboard</a></div>
       <p class="Welcome">Board</p>
       <table id="Board">

@@ -5,25 +5,15 @@ var users = require('../modules/userModule');
 var games = require('../modules/gameModule');
 var _ = require('underscore');
 
-//Possible cards and random board.
-
-//User Logged in
-var userLogged = {
-    id:null,
-    nickname:null,
-    fullName:null,
-    password:null,
-    games: {players : null}
-}; //TODO find out why it doesn't work with sessions
-
 router.post('/dashboard', function(request, response) {
 
-    if (userLogged.id!==null) {
-        //userLogged = request.session.user;
+    if (request.session.user) {
+        var userLogged = {};
+        userLogged = request.session.user;
         games.getGamesByUser(userLogged.id, function (err, games) {
             userLogged.games = games;
             response.render('dashboard', {user: userLogged});
-            //request.session.user = userLogged;
+            request.session.user = userLogged;
         });
     }
     else {
@@ -49,8 +39,9 @@ router.post('/dashboard', function(request, response) {
                     }
                     games.getGamesByUser(userLogged.id, function (err, games) {
                         userLogged.games = games;
+                        request.session.user = userLogged;
                         response.render('dashboard', {user: userLogged});
-                        //request.session.user = userLogged;
+
                     });
                 }
             });
@@ -59,7 +50,8 @@ router.post('/dashboard', function(request, response) {
 });
 
 router.get('/dashboard',function(request,response){
-    if (userLogged) {
+    if (request.session.user) {
+        var userLogged = request.session.user;
         games.getGamesByUser(userLogged.id, function (err, games) {
             userLogged.games = games;
             response.render('dashboard', {user: userLogged});
@@ -71,18 +63,13 @@ router.get('/dashboard',function(request,response){
     }
 });
 
-router.get('/start/:id',function (request,response) {
-
-    games.changeGameStatus(game,function () {
-        response.end("AQUI EL JUEGO");
-    });
-});
-
 router.get('/create/',function(request,response){
+    var userLogged = request.session.user;
     response.render('createGame',{user:userLogged})
 });
 
 router.get('/openGames/',function(request,response){
+    var userLogged = request.session.user;
     games.getOpenGames(userLogged,function (err,result) {
         userLogged.openGames = result;
         if(result) {
@@ -101,6 +88,7 @@ router.get('/openGames/',function(request,response){
 });
 
 router.post('/createGame/',function (request,response) {
+    var userLogged = request.session.user;
     let goldP = _.shuffle(['y','x','y']);
 
     let board = '0'+'0'+'0'+'0'+'0'+'0'+'0'+
@@ -123,10 +111,10 @@ router.post('/createGame/',function (request,response) {
         response.redirect('/games/dashboard');
     });
 
-})
+});
 router.get('/exit',function (request,response) {
-    userLogged.id = null;
-    response.redirect('/');
-})
+    request.session.user = null;
+    response.redirect('/users/Login');
+});
 
 module.exports = router;

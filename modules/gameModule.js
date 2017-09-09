@@ -75,6 +75,7 @@ function changeGameStatus(newStatus,gameId,callback) {
         }
     });
 }
+
 function createGameByUser(game,callback) {
     pool.getConnection(function(err, con) {
         if (err) {
