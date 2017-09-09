@@ -1,18 +1,16 @@
 var express = require('express');
+var body = require('body-parser');
 var router = express.Router();
 
 /* GET pages. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Saboteur' });
-});
+router.get('/', function(request, response, next) {
+  if(request.session.user){
+      response.redirect('/games/dashboard');
 
-router.get('/signUp',function (req,res,next) {
-    res.render('signUp', {title:'SignUp'});
+  }
+  else{
+      response.render('index',{ user:undefined});
+  }
 });
-
-router.get('/Login',function (req,res,next) {
-    res.render('Login', {title:'Login'});
-});
-
 
 module.exports = router;

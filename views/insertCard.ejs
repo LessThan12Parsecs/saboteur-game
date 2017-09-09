@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Saboteur</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style2.css' />
+  </head>
+  <body>
+  <header id="header"><img id="imagen" src="/images/Logo.png" alt=":D"></header>
+  <aside id="aside">
+      <% if (game.userNick) { %>
+      <img id="imagenUser" src="/users/imagen/<%= game.userId %>" width="50" height="50">
+        <% if(game.userNick!==undefined){ %>
+            <h3><%=game.userNick%></h3>
+         <%} else{ %>
+            <h3>Not Logged</h3>
+      <% }} %>
+  </aside>
+  <main id="main">
+      <%if(title!==undefined){%>
+        <p class="Welcome"><%=title%></p>
+      <%} else {%>
+        <p class="Welcome">Place your card</p>
+      <%}%>
+      <table id="Board">
+          <%for (var i = 0; i <game.board.length; i++){%>
+              <tr>
+                  <%for (var j = 0; j <game.board[i].length; j++){%>
+                    <%if(game.board[i][j]==='0'){ %>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/Empty.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='s'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/Start.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='y'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/DNK.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='x'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/DNK.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='1'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T1.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='2'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T2.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='3'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T3.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='4'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T4.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='5'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T5.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='6'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T6.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='7'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T7.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='8'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T8.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='9'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T9.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='a'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T10.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='b'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T11.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='c'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T12.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='d'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T13.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='e'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T14.png" width="80" height="80"></a></td>
+                    <%}else if (game.board[i][j]==='f'){%>
+                  <td><a href="/table/placeAt/<%=i%>/<%=j%>/<%=card%>"><img src="/../images/T15.png" width="80" height="80"></a></td>
+                    <%}}%>
+              </tr>
+          <%}%>
+      </table>
+  </main>
+  <hand id="hand">
+      <p>Place card in board</p>
+          <%if (card==='1'){%>
+      <tr><img src="/../images/T1.png" width="80" height="80"></tr>
+          <%}else if (card==='2'){%>
+      <tr><img src="/../images/T2.png" width="80" height="80"></tr>
+          <%}else if (card==='3'){%>
+      <tr><img src="/../images/T3.png" width="80" height="80"></tr>
+          <%}else if (card==='4'){%>
+      <tr><img src="/../images/T4.png" width="80" height="80"></tr>
+          <%}else if (card==='5'){%>
+      <tr><img src="/../images/T5.png" width="80" height="80"></tr>
+          <%}else if (card==='6'){%>
+      <tr><img src="/../images/T6.png" width="80" height="80"></tr>
+          <%}else if (card==='7'){%>
+      <tr><img src="/../images/T7.png" width="80" height="80"></tr>
+          <%}else if (card==='8'){%>
+      <tr><img src="/../images/T8.png" width="80" height="80"></tr>
+          <%}else if (card==='9'){%>
+      <tr><img src="/../images/T9.png" width="80" height="80"></tr>
+          <%}else if (card==='a'){%>
+      <tr><img src="/../images/T10.png" width="80" height="80"></tr>
+          <%}else if (card==='b'){%>
+      <tr><img src="/../images/T11.png" width="80" height="80"></tr>
+          <%}else if (card==='c'){%>
+      <tr><img src="/../images/T12.png" width="80" height="80"></tr>
+          <%}else if (card==='d'){%>
+      <tr><img src="/../images/T13.png" width="80" height="80"></tr>
+          <%}else if (card==='e'){%>
+      <tr><img src="/../images/T14.png" width="80" height="80"></tr>
+          <%}else if (card==='f'){%>
+      <tr><img src="/../images/T15.png" width="80" height="80"></tr>
+          <%}%>
+      </table>
+      <a href="/table/dropCard/<%=card%>" ><img src="/../images/Del.png" width="80" height="80"></a>
+  </hand>
+  </body>
+</html>
+
+
+

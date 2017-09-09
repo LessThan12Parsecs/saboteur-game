@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Saboteur</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  <div align="left" class="userBox loginBox">
+      <% if (user) { %>
+    <img id="imagenUser" src="/users/imagen/<%= user.id %>" width="50" height="50">
+      <% } %>
+      <% if(user.nickname!==undefined){ %>
+    <h3><%=user.nickname%></h3>
+      <% } else{ %>
+    <h3>Not Logged</h3>
+      <% } %>
+  </div>
+    <main role="main" align="center" class="loginBox">
+      <div class="Welcome">
+        <img src="/images/Logo.png" alt=":D">
+        <form class="signUp-form"action="/games/createGame" method="post">
+          <div class="text-form">
+            Nombre de la partida
+          </div>
+          <input type="text" name="gameName" value="">
+          <p> </p>
+          <a>Numero de Jugadores</a>
+          <select name="numPlayers">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <input type="hidden" name="userId" value=<%= user.id %>>
+          <input class="button green" type="submit" value="Crear">
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
+
+
